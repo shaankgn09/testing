@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ZPEO KANGAN</title>
+
+<style>
+
+body{
+    font-family:Arial,sans-serif;
+    background:url('background.jpg') no-repeat center center fixed;
+    background-size:cover;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:20px;
+    margin:0;
+    overflow-x:hidden;
+}
+
+h2{
+    color:white;
+    text-align:center;
+}
+
+form{
+    background:#00BFFF;
+    padding:15px;
+    border-radius:10px;
+    box-shadow:0 0 5px rgba(0,0,0,0.2);
+    margin-bottom:20px;
+    width:350px;
+    box-sizing:border-box;
+}
+
+label{
+    font-weight:bold;
+    font-size:14px;
+    display:block;
+    margin-top:10px;
+}
+
+input{
+    width:100%;
+    padding:6px;
+    margin-top:3px;
+    border:1px solid #ccc;
+    border-radius:4px;
+    box-sizing:border-box;
+}
+
+button{
+    margin-top:8px;
+    padding:8px 15px;
+    background-color:#0078d7;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+button:hover{
+    background-color:#005fa3;
+}
+
+.checkbox-row{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-top:14px;
+    background:rgba(255,255,255,0.25);
+    padding:8px;
+    border-radius:6px;
+}
+
+.checkbox-row input[type="checkbox"]{
+    width:auto;
+    margin:0;
+}
+
+.checkbox-row label{
+    margin:0;
+    font-size:13px;
+}
+
+/* PREVIEW */
+
+.preview-wrapper{
+
+    width:210mm;
+    max-width:100%;
+    overflow:auto;
+
+}
+
+.preview-container{
+
+    position:relative;
+    width:210mm;
+    height:297mm;
+    background:white;
+    border:1px solid #aaa;
+
+    transform-origin:top left;
+
+}
+
+/* MOBILE FIX */
+
+@media screen and (max-width:768px){
+
+    .preview-container{
+
+        transform:scale(calc((100vw - 20px) / 794));
+
+        margin-bottom:-190mm;
+
+    }
+
+}
+
+.preview-container img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.text-overlay{
+    position:absolute;
+    font-size:12pt;
+    font-weight:bold;
+    color:black;
+    white-space:nowrap;
+}
+
+/* DOB WORD SIZE */
+
+#dobWords{
+    font-size:10pt !important;
+}
+
+/* TEXT POSITIONS */
+
+#ageGroup { top: 1.78in; left: 1.85in; }
+
+#participantName { top: 2.24in; left: 4.21in; }
+
+#fatherName { top: 2.56in; left: 4.2in; }
+
+#motherName { top: 2.9in; left: 4.2in; }
+
+#schoolName { top: 3.3in; left: 4.2in; }
+
+#address { top: 3.6in; left: 4.2in; }
+
+#schoolPhone { top: 3.9in; left: 4.2in; }
+
+#registrationNo { top: 4.2in; left: 4.2in; }
+
+#dob { top: 4.52in; left: 4.2in; }
+
+#dobWords { top: 4.75in; left: 4.2in; }
+
+#age { top: 6.05in; left: 4.2in; }
+
+#aadhaar { top: 5.25in; left: 4.2in; }
+
+#passport { top: 5.52in; left: 4.2in; }
+
+#discipline { top: 5.8in; left: 4.2in; }
+
+#permanentAddress { top: 6.3in; left: 4.3in; }
+
+#mobile { top: 6.53in; left: 4.5in; }
+
+#admissionNo { top: 6.75in; left: 4.2in; }
+
+#joiningDate { top: 7in; left: 4.2in; }
+
+#standardThisYear { top: 7.3in; left: 4.2in; }
+
+#standardLastYear { top: 7.55in; left: 4.2in; }
+
+#bankName { top: 8.05in; left: 5in; }
+
+#bankHolder { top: 7.8in; left: 5in; }
+
+#accountNo { top: 8.25in; left: 5in; }
+
+#ifsc { top: 8.40in; left: 5in; }
+
+#marks { top: 8.68in; left: 4.2in; }
+
+#photo{
+    position:absolute;
+    top:0.77in;
+    left:6.74in;
+    width:1.2in;
+    height:1.35in;
+    object-fit:cover;
+    display:none;
+}
+
+/* ================= BONAFIDE CERTIFICATE (TEXT-BASED, NO BACKGROUND IMAGE) ================= */
+
+.bonafide-container{
+    position:relative;
+    width:210mm;
+    height:297mm;
+    background:white;
+    border:1px solid #aaa;
+    box-sizing:border-box;
+    padding:15mm 15mm;
+    font-family:Arial,sans-serif;
+    transform-origin:top left;
+    display:none; /* shown only when generating / previewing */
+}
+
+.bonafide-container.active{
+    display:block;
+}
+
+.bonafide-title{
+    text-align:center;
+    font-weight:bold;
+    font-size:22pt;
+    margin-bottom:6px;
+    text-transform:uppercase;
+}
+
+.bonafide-subtitle{
+    text-align:center;
+    font-weight:bold;
+    font-size:20pt;
+    text-decoration:underline;
+    margin-bottom:30px;
+    text-transform:uppercase;
+}
+
+.bonafide-line{
+    font-size:13pt;
+    margin-top:22px;
+    display:flex;
+    align-items:baseline;
+    white-space:nowrap;
+}
+
+.bonafide-line .label{
+    font-weight:normal;
+    flex-shrink:0;
+}
+
+.bonafide-line .fill{
+    font-weight:bold;
+    border-bottom:1px dotted #000;
+    flex-grow:1;
+    padding:0 6px;
+    min-height:16px;
+    overflow:hidden;
+}
+
+.bonafide-sub{
+    font-size:10pt;
+    font-style:italic;
+    margin-top:2px;
+}
+
+.bonafide-inline-group{
+    display:flex;
+    gap:0;
+}
+
+.bonafide-inline-group .part{
+    display:flex;
+    align-items:baseline;
+    white-space:nowrap;
+}
+
+.bonafide-inline-group .part.class-part{
+    flex:0 0 55%;
+}
+
+.bonafide-inline-group .part.roll-part{
+    flex:1;
+}
+
+.digit-boxes{
+    display:flex;
+    gap:6px;
+    margin-top:8px;
+}
+
+.digit-group{
+    display:flex;
+    gap:2px;
+}
+
+.digit-box{
+    width:32px;
+    height:32px;
+    border:2px solid #000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    font-size:14pt;
+}
+
+.bonafide-cert-text{
+    margin-top:40px;
+    font-size:12pt;
+    line-height:1.6;
+}
+
+.bonafide-footer{
+    display:flex;
+    justify-content:space-between;
+    margin-top:120px;
+    font-size:12pt;
+    font-weight:bold;
+}
+
+.bonafide-footer .right{
+    text-align:right;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>Fill Certificate of Eligibility Details</h2>
+
+<form id="form">
+
+<label>Upload Previously Generated Eligibility PDF:</label>
+<input type="file" id="uploadExistingPDF" accept=".pdf">
+
+<label>Age Group:</label>
+<input type="text" id="inputAge">
+
+<label>Name of Participant:</label>
+<input type="text" id="inputParticipant">
+
+<label>Father's Name:</label>
+<input type="text" id="inputFather">
+
+<label>Mother's Name:</label>
+<input type="text" id="inputMother">
+
+<label>Name of School:</label>
+<input type="text" id="inputSchool">
+
+<label>Full Address of School:</label>
+<input type="text" id="inputAddress">
+
+<label>School's Phone No:</label>
+<input type="text" id="inputPhone">
+
+<label>Last Year Registration No (SGFI):</label>
+<input type="text" id="inputRegNo">
+
+<label>Date of Birth:</label>
+<input type="date" id="inputDob">
+
+<label>Aadhaar No:</label>
+<input type="text" id="inputAadhaar">
+
+<label>Passport No:</label>
+<input type="text" id="inputPassport">
+
+<label>Discipline / Game:</label>
+<input type="text" id="inputDiscipline">
+
+<label>Permanent Address:</label>
+<input type="text" id="inputPermAddress">
+
+<label>Mobile No:</label>
+<input type="text" id="inputMobile">
+
+<label>Admission No:</label>
+<input type="text" id="inputAdmission">
+
+<label>Date of Joining School:</label>
+<input type="date" id="inputJoining">
+
+<label>Standard & Section (This Year):</label>
+<input type="text" id="inputStdThis">
+
+<label>Standard Studying (Last Year):</label>
+<input type="text" id="inputStdLast">
+
+<label>Roll No (for Bonafide Certificate):</label>
+<input type="text" id="inputRollNo">
+
+<label>Bank Name:</label>
+<input type="text" id="inputBankName">
+
+<label>Name of Bank Account Holder:</label>
+<input type="text" id="inputHolder">
+
+<label>Account No:</label>
+<input type="text" id="inputAccount">
+
+<label>IFSC Code:</label>
+<input type="text" id="inputIfsc">
+
+<label>Personal Identification Marks:</label>
+<input type="text" id="inputMarks">
+
+<label>Upload Photo:</label>
+<input type="file" id="inputPhoto" accept="image/*">
+
+<div class="checkbox-row">
+    <input type="checkbox" id="alsoDownloadBonafide">
+    <label for="alsoDownloadBonafide">Also download Bonafide / Birth Certificate</label>
+</div>
+
+<div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+
+<button type="button" onclick="showPreview()">Submit</button>
+
+
+<button type="button" onclick="downloadPDF()">Download PDF</button>
+<button type="button" onclick="savePlayer()">💾 Save This Player</button>
+<button type="button" onclick="showPlayers()">📂 All Saved Players</button>
+
+
+</div>
+
+</form>
+<div id="playerPanel" style="display:none;background:#fff;padding:15px;margin:15px;width:95%;max-width:900px;border-radius:10px;">
+<h3>Player Database</h3>
+<input type="text" id="playerSearch" placeholder="Search Name/Aadhaar/School" onkeyup="showPlayers()" style="width:100%;padding:8px">
+<div id="playerList"></div>
+</div>
+
+
+<div class="preview-wrapper">
+
+<div class="preview-container" id="LoadDetails">
+
+<img src="wwwww.jpg">
+
+<img id="photo">
+
+<div id="ageGroup" class="text-overlay"></div>
+<div id="participantName" class="text-overlay"></div>
+<div id="fatherName" class="text-overlay"></div>
+<div id="motherName" class="text-overlay"></div>
+<div id="schoolName" class="text-overlay"></div>
+<div id="address" class="text-overlay"></div>
+<div id="schoolPhone" class="text-overlay"></div>
+<div id="registrationNo" class="text-overlay"></div>
+<div id="dob" class="text-overlay"></div>
+<div id="dobWords" class="text-overlay"></div>
+<div id="age" class="text-overlay"></div>
+<div id="aadhaar" class="text-overlay"></div>
+<div id="passport" class="text-overlay"></div>
+<div id="discipline" class="text-overlay"></div>
+<div id="permanentAddress" class="text-overlay"></div>
+<div id="mobile" class="text-overlay"></div>
+<div id="admissionNo" class="text-overlay"></div>
+<div id="joiningDate" class="text-overlay"></div>
+<div id="standardThisYear" class="text-overlay"></div>
+<div id="standardLastYear" class="text-overlay"></div>
+<div id="bankName" class="text-overlay"></div>
+<div id="bankHolder" class="text-overlay"></div>
+<div id="accountNo" class="text-overlay"></div>
+<div id="ifsc" class="text-overlay"></div>
+<div id="marks" class="text-overlay"></div>
+
+</div>
+
+</div>
+
+<!-- ================= BONAFIDE / BIRTH CERTIFICATE PREVIEW ================= -->
+
+<div class="preview-wrapper" style="width:0;height:0;overflow:hidden;">
+
+<div class="bonafide-container" id="LoadDetails2">
+
+    <div class="bonafide-title">Office of the Principal / Headmaster</div>
+    <div class="bonafide-subtitle">Bonafide / Birth Certificate</div>
+
+    <div class="bonafide-line">
+        <span class="label">Name of the student&nbsp;</span>
+        <span class="fill" id="b_participantName"></span>
+    </div>
+    <div class="bonafide-sub">(In block letters)</div>
+
+    <div class="bonafide-line">
+        <span class="label">Father's name&nbsp;</span>
+        <span class="fill" id="b_fatherName"></span>
+    </div>
+    <div class="bonafide-sub">(In block letters)</div>
+
+    <div class="bonafide-line bonafide-inline-group">
+        <span class="part class-part">
+            <span class="label">Class&nbsp;</span>
+            <span class="fill" id="b_class"></span>
+        </span>
+        <span class="part roll-part">
+            <span class="label">&nbsp;Roll No.&nbsp;</span>
+            <span class="fill" id="b_rollNo"></span>
+        </span>
+    </div>
+
+    <div class="bonafide-line">
+        <span class="label">D.O.B. (in words)&nbsp;</span>
+        <span class="fill" id="b_dobWords"></span>
+    </div>
+
+    <div style="margin-top:28px;">
+        <span class="label" style="font-size:13pt;">In figures</span>
+        <div class="digit-boxes">
+            <div class="digit-group" id="b_dobDay"></div>
+            <div class="digit-group" id="b_dobMonth"></div>
+            <div class="digit-group" id="b_dobYear"></div>
+        </div>
+    </div>
+
+    <div class="bonafide-line" style="margin-top:34px;">
+        <span class="label">Admission No.&nbsp;</span>
+        <span class="fill" id="b_admissionNo"></span>
+    </div>
+
+    <div style="margin-top:20px;display:flex;align-items:center;gap:10px;">
+        <span class="label" style="font-size:13pt;">Date of Admission</span>
+        <div class="digit-boxes" style="margin-top:0;">
+            <div class="digit-group" id="b_admDay"></div>
+            <div class="digit-group" id="b_admMonth"></div>
+            <div class="digit-group" id="b_admYear"></div>
+        </div>
+    </div>
+
+    <div class="bonafide-cert-text">
+        Certified that the date of birth of the bonafied student is verified and found correct
+        as per admissions records of the school
+    </div>
+
+    <div class="bonafide-footer">
+        <div class="left">
+            Incharge Admission<br>
+            <span style="font-weight:normal;font-size:11pt;">PEL/PEM/PET/RK</span>
+        </div>
+        <div class="right">
+            Seal &amp; Signature of the<br>Head of the Institution
+        </div>
+    </div>
+
+</div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+
+function getFormData(){
+ return {
+  ageGroup:inputAge.value,participant:inputParticipant.value,father:inputFather.value,mother:inputMother.value,
+  school:inputSchool.value,address:inputAddress.value,phone:inputPhone.value,regNo:inputRegNo.value,
+  dob:inputDob.value,aadhaar:inputAadhaar.value,passport:inputPassport.value,discipline:inputDiscipline.value,
+  permAddress:inputPermAddress.value,mobile:inputMobile.value,admission:inputAdmission.value,
+  joining:inputJoining.value,stdThis:inputStdThis.value,stdLast:inputStdLast.value,rollNo:inputRollNo.value,
+  bankName:inputBankName.value,holder:inputHolder.value,account:inputAccount.value,
+  ifsc:inputIfsc.value,marks:inputMarks.value,photo:document.getElementById('photo').src||''
+ };
+}
+
+function savePlayer(){
+ let records=JSON.parse(localStorage.getItem('players')||'[]');
+ let aadhaar=inputAadhaar.value.trim();
+ let existing=records.find(r=>r.aadhaar===aadhaar);
+ if(existing){alert('Player already exists. Use Update Player');return;}
+ records.push({aadhaar:aadhaar,name:inputParticipant.value,school:inputSchool.value,mobile:inputMobile.value,data:getFormData()});
+ localStorage.setItem('players',JSON.stringify(records));
+ alert('Player Saved');
+}
+
+function updatePlayer(aadhaar){
+ let records=JSON.parse(localStorage.getItem('players')||'[]');
+ let i=records.findIndex(r=>r.aadhaar===aadhaar);
+ if(i<0)return;
+ records[i].data=getFormData();
+ records[i].name=inputParticipant.value;
+ records[i].school=inputSchool.value;
+ localStorage.setItem('players',JSON.stringify(records));
+ alert('Player Updated');
+ showPlayers();
+}
+
+function usePlayer(aadhaar){
+ let records=JSON.parse(localStorage.getItem('players')||'[]');
+ let p=records.find(r=>r.aadhaar===aadhaar);
+ if(!p)return;
+ let d=p.data;
+ Object.keys(d).forEach(k=>{
+   let map={ageGroup:'inputAge',participant:'inputParticipant',father:'inputFather',mother:'inputMother',school:'inputSchool',address:'inputAddress',phone:'inputPhone',regNo:'inputRegNo',dob:'inputDob',aadhaar:'inputAadhaar',passport:'inputPassport',discipline:'inputDiscipline',permAddress:'inputPermAddress',mobile:'inputMobile',admission:'inputAdmission',joining:'inputJoining',stdThis:'inputStdThis',stdLast:'inputStdLast',rollNo:'inputRollNo',bankName:'inputBankName',holder:'inputHolder',account:'inputAccount',ifsc:'inputIfsc',marks:'inputMarks'};
+   if(map[k]) document.getElementById(map[k]).value=d[k]||'';
+ });
+ if(d.photo){photo.src=d.photo;photo.style.display='block';}
+ showPreview();
+}
+
+function deletePlayer(aadhaar){
+ let records=JSON.parse(localStorage.getItem('players')||'[]');
+ records=records.filter(r=>r.aadhaar!==aadhaar);
+ localStorage.setItem('players',JSON.stringify(records));
+ showPlayers();
+}
+
+function showPlayers(){
+ let records=JSON.parse(localStorage.getItem('players')||'[]');
+ let q=(document.getElementById('playerSearch').value||'').toUpperCase();
+ let h='';
+ records.forEach(r=>{
+  if(!q || r.name.toUpperCase().includes(q) || r.school.toUpperCase().includes(q) || r.aadhaar.includes(q)){
+   h+=`<div style="border:1px solid #ccc;padding:8px;margin:5px">
+   <b>${r.name}</b> | ${r.school}<br>
+   <button onclick="usePlayer('${r.aadhaar}')">Use Record</button>
+   <button onclick="updatePlayer('${r.aadhaar}')">Update</button>
+   <button onclick="deletePlayer('${r.aadhaar}')">Delete</button>
+   </div>`;
+  }
+ });
+ document.getElementById('playerList').innerHTML=h;
+ document.getElementById('playerPanel').style.display='block';
+}
+
+/* DOB WORDS */
+
+function formatDOBWords(d){
+
+    if(!d) return "";
+
+    const date = new Date(d);
+
+    const day = date.getDate();
+
+    const year = date.getFullYear();
+
+    const months = [
+        "JANUARY","FEBRUARY","MARCH","APRIL","MAY","JUNE",
+        "JULY","AUGUST","SEPTEMBER","OCTOBER","NOVEMBER","DECEMBER"
+    ];
+
+    const month = months[date.getMonth()];
+
+    const dayWords = [
+        "",
+        "FIRST","SECOND","THIRD","FOURTH","FIFTH",
+        "SIXTH","SEVENTH","EIGHTH","NINTH","TENTH",
+        "ELEVENTH","TWELFTH","THIRTEENTH","FOURTEENTH",
+        "FIFTEENTH","SIXTEENTH","SEVENTEENTH",
+        "EIGHTEENTH","NINETEENTH","TWENTIETH",
+        "TWENTY FIRST","TWENTY SECOND","TWENTY THIRD",
+        "TWENTY FOURTH","TWENTY FIFTH","TWENTY SIXTH",
+        "TWENTY SEVENTH","TWENTY EIGHTH",
+        "TWENTY NINTH","THIRTIETH","THIRTY FIRST"
+    ];
+
+    function numberToWords(num){
+
+        const ones = [
+            "",
+            "ONE","TWO","THREE","FOUR","FIVE",
+            "SIX","SEVEN","EIGHT","NINE","TEN",
+            "ELEVEN","TWELVE","THIRTEEN","FOURTEEN",
+            "FIFTEEN","SIXTEEN","SEVENTEEN",
+            "EIGHTEEN","NINETEEN"
+        ];
+
+        const tens = [
+            "",
+            "",
+            "TWENTY","THIRTY","FORTY","FIFTY",
+            "SIXTY","SEVENTY","EIGHTY","NINETY"
+        ];
+
+        if(num < 20){
+            return ones[num];
+        }
+
+        if(num < 100){
+            return tens[Math.floor(num/10)] +
+            (num%10 ? " " + ones[num%10] : "");
+        }
+
+        if(num < 1000){
+            return ones[Math.floor(num/100)] +
+            " HUNDRED " +
+            numberToWords(num%100);
+        }
+
+        if(num < 10000){
+            return ones[Math.floor(num/1000)] +
+            " THOUSAND " +
+            numberToWords(num%1000);
+        }
+
+        return num;
+
+    }
+
+    return `${dayWords[day]} ${month} ${numberToWords(year)}`;
+
+}
+
+/* DATE FORMAT */
+
+function formatNormalDate(d){
+
+    if(!d) return "";
+
+    const date = new Date(d);
+
+    const dd = String(date.getDate()).padStart(2,'0');
+
+    const mm = String(date.getMonth()+1).padStart(2,'0');
+
+    const yyyy = date.getFullYear();
+
+    return `${dd}.${mm}.${yyyy}`;
+
+}
+
+/* AGE */
+
+function calculateAge(dob){
+
+    if(!dob) return "";
+
+    const birthDate = new Date(dob);
+
+    const refDate = new Date("2026-12-31");
+
+    let years = refDate.getFullYear() - birthDate.getFullYear();
+
+    let months = refDate.getMonth() - birthDate.getMonth();
+
+    let days = refDate.getDate() - birthDate.getDate();
+
+    if(days < 0){
+        months--;
+        days += 30;
+    }
+
+    if(months < 0){
+        years--;
+        months += 12;
+    }
+
+    return `${years} YEARS ${months} MONTHS ${days} DAYS`;
+
+}
+
+/* RENDER DIGIT BOXES: dd/mm split into 2 boxes each, yyyy into 4 boxes */
+
+function renderDigitBoxes(containerId, dateStr, part){
+
+    const container = document.getElementById(containerId);
+
+    if(!container) return;
+
+    container.innerHTML = "";
+
+    let digits = "";
+
+    if(dateStr){
+
+        const date = new Date(dateStr);
+
+        if(part === 'day'){
+            digits = String(date.getDate()).padStart(2,'0');
+        } else if(part === 'month'){
+            digits = String(date.getMonth()+1).padStart(2,'0');
+        } else if(part === 'year'){
+            digits = String(date.getFullYear());
+        }
+
+    } else {
+
+        digits = (part === 'year') ? "" : "";
+
+    }
+
+    const boxCount = (part === 'year') ? 4 : 2;
+
+    for(let i=0;i<boxCount;i++){
+
+        const box = document.createElement('div');
+
+        box.className = 'digit-box';
+
+        box.textContent = digits[i] || "";
+
+        container.appendChild(box);
+
+    }
+
+}
+
+/* SHOW PREVIEW (fills BOTH the eligibility certificate AND the bonafide certificate) */
+
+function showPreview(){
+
+    const get=id=>document.getElementById(id).value;
+
+    const set=(id,val)=>
+    document.getElementById(id).textContent=val||"";
+
+    set('ageGroup',get('inputAge'));
+    set('participantName',get('inputParticipant'));
+    set('fatherName',get('inputFather'));
+    set('motherName',get('inputMother'));
+    set('schoolName',get('inputSchool'));
+    set('address',get('inputAddress'));
+    set('schoolPhone',get('inputPhone'));
+    set('registrationNo',get('inputRegNo'));
+
+    const dob=get('inputDob');
+
+    set('dob', formatNormalDate(dob));
+    set('dobWords', formatDOBWords(dob));
+    set('age',calculateAge(dob));
+
+    set('aadhaar',get('inputAadhaar'));
+    set('passport',get('inputPassport'));
+    set('discipline',get('inputDiscipline'));
+    set('permanentAddress',get('inputPermAddress'));
+    set('mobile',get('inputMobile'));
+    set('admissionNo',get('inputAdmission'));
+
+    set('joiningDate',
+    formatNormalDate(get('inputJoining')));
+
+    set('standardThisYear',get('inputStdThis'));
+    set('standardLastYear',get('inputStdLast'));
+    set('bankName',get('inputBankName'));
+    set('bankHolder',get('inputHolder'));
+    set('accountNo',get('inputAccount'));
+    set('ifsc',get('inputIfsc'));
+    set('marks',get('inputMarks'));
+
+    const photoInput=document.getElementById('inputPhoto');
+
+    const photo=document.getElementById('photo');
+
+    if(photoInput.files && photoInput.files[0]){
+
+        const reader=new FileReader();
+
+        reader.onload=e=>{
+
+            photo.src=e.target.result;
+            photo.style.display='block';
+
+        };
+
+        reader.readAsDataURL(photoInput.files[0]);
+
+    }
+
+    /* ---- FILL BONAFIDE / BIRTH CERTIFICATE ---- */
+
+    set('b_participantName', get('inputParticipant'));
+    set('b_fatherName', get('inputFather'));
+    set('b_class', get('inputStdThis'));
+    set('b_rollNo', get('inputRollNo'));
+    set('b_dobWords', formatDOBWords(dob));
+    set('b_admissionNo', get('inputAdmission'));
+
+    renderDigitBoxes('b_dobDay', dob, 'day');
+    renderDigitBoxes('b_dobMonth', dob, 'month');
+    renderDigitBoxes('b_dobYear', dob, 'year');
+
+    const joining = get('inputJoining');
+
+    renderDigitBoxes('b_admDay', joining, 'day');
+    renderDigitBoxes('b_admMonth', joining, 'month');
+    renderDigitBoxes('b_admYear', joining, 'year');
+
+}
+
+/* GENERATE A SINGLE PDF FROM A GIVEN CONTAINER ELEMENT */
+
+async function generatePdfFromElement(elementId){
+
+    const el=document.getElementById(elementId);
+
+    const wasHidden = el.classList.contains('bonafide-container') && !el.classList.contains('active');
+
+    if(wasHidden) el.classList.add('active');
+
+    const canvas=await html2canvas(el,{
+        scale:4,
+        useCORS:true
+    });
+
+    if(wasHidden) el.classList.remove('active');
+
+    const imgData=canvas.toDataURL('image/jpeg',1.0);
+
+    const { jsPDF } = window.jspdf;
+
+    const pdf=new jsPDF('p','mm','a4');
+
+    pdf.addImage(imgData,'JPEG',0,0,210,297);
+
+    return pdf;
+
+}
+
+/* DOWNLOAD PDF(S) */
+
+async function downloadPDF(){
+
+    const participantName=
+    document.getElementById('inputParticipant').value.trim()
+    || 'certificate_form';
+
+    const safeName = participantName.replace(/\s+/g,'_');
+
+    /* ---- 1. ELIGIBILITY CERTIFICATE (always) ---- */
+
+    const eligibilityPdf = await generatePdfFromElement('LoadDetails');
+
+    const formData={
+
+        ageGroup:document.getElementById('inputAge').value,
+        participant:document.getElementById('inputParticipant').value,
+        father:document.getElementById('inputFather').value,
+        mother:document.getElementById('inputMother').value,
+        school:document.getElementById('inputSchool').value,
+        address:document.getElementById('inputAddress').value,
+        phone:document.getElementById('inputPhone').value,
+        regNo:document.getElementById('inputRegNo').value,
+        dob:document.getElementById('inputDob').value,
+        aadhaar:document.getElementById('inputAadhaar').value,
+        passport:document.getElementById('inputPassport').value,
+        discipline:document.getElementById('inputDiscipline').value,
+        permAddress:document.getElementById('inputPermAddress').value,
+        mobile:document.getElementById('inputMobile').value,
+        admission:document.getElementById('inputAdmission').value,
+        joining:document.getElementById('inputJoining').value,
+        stdThis:document.getElementById('inputStdThis').value,
+        stdLast:document.getElementById('inputStdLast').value,
+        rollNo:document.getElementById('inputRollNo').value,
+        bankName:document.getElementById('inputBankName').value,
+        holder:document.getElementById('inputHolder').value,
+        account:document.getElementById('inputAccount').value,
+        ifsc:document.getElementById('inputIfsc').value,
+        marks:document.getElementById('inputMarks').value,
+        photo:document.getElementById('photo').src || ""
+
+    };
+
+    eligibilityPdf.text(
+        "JSON_DATA:" + JSON.stringify(formData),
+        -1000,
+        -1000
+    );
+
+    eligibilityPdf.save(`${safeName}_eligibility.pdf`);
+
+    /* ---- 2. BONAFIDE CERTIFICATE (only if checkbox is checked) ---- */
+
+    const alsoDownload = document.getElementById('alsoDownloadBonafide').checked;
+
+    if(alsoDownload){
+
+        const bonafidePdf = await generatePdfFromElement('LoadDetails2');
+
+        bonafidePdf.save(`${safeName}_bonafide_certificate.pdf`);
+
+    }
+
+}
+
+/* IMPORT PDF */
+
+document.getElementById('uploadExistingPDF')
+.addEventListener('change', async function(e){
+
+    const file = e.target.files[0];
+
+    if(!file) return;
+
+    try{
+
+        const reader = new FileReader();
+
+        reader.onload = async function(){
+
+            try{
+
+                const uint8Array =
+                new Uint8Array(reader.result);
+
+                let pdfText = "";
+
+                for(let i=0;i<uint8Array.length;i++){
+
+                    pdfText +=
+                    String.fromCharCode(uint8Array[i]);
+
+                }
+
+                const match = pdfText.match(
+                    /JSON_DATA:(\{.*?\})/s
+                );
+
+                if(!match){
+
+                    alert("NO IMPORT DATA FOUND");
+
+                    return;
+
+                }
+
+                const data = JSON.parse(match[1]);
+
+                document.getElementById('inputAge').value =
+                data.ageGroup || "";
+
+                document.getElementById('inputParticipant').value =
+                data.participant || "";
+
+                document.getElementById('inputFather').value =
+                data.father || "";
+
+                document.getElementById('inputMother').value =
+                data.mother || "";
+
+                document.getElementById('inputSchool').value =
+                data.school || "";
+
+                document.getElementById('inputAddress').value =
+                data.address || "";
+
+                document.getElementById('inputPhone').value =
+                data.phone || "";
+
+                document.getElementById('inputRegNo').value =
+                data.regNo || "";
+
+                document.getElementById('inputDob').value =
+                data.dob || "";
+
+                document.getElementById('inputAadhaar').value =
+                data.aadhaar || "";
+
+                document.getElementById('inputPassport').value =
+                data.passport || "";
+
+                document.getElementById('inputDiscipline').value =
+                data.discipline || "";
+
+                document.getElementById('inputPermAddress').value =
+                data.permAddress || "";
+
+                document.getElementById('inputMobile').value =
+                data.mobile || "";
+
+                document.getElementById('inputAdmission').value =
+                data.admission || "";
+
+                document.getElementById('inputJoining').value =
+                data.joining || "";
+
+                document.getElementById('inputStdThis').value =
+                data.stdThis || "";
+
+                document.getElementById('inputStdLast').value =
+                data.stdLast || "";
+
+                document.getElementById('inputRollNo').value =
+                data.rollNo || "";
+
+                document.getElementById('inputBankName').value =
+                data.bankName || "";
+
+                document.getElementById('inputHolder').value =
+                data.holder || "";
+
+                document.getElementById('inputAccount').value =
+                data.account || "";
+
+                document.getElementById('inputIfsc').value =
+                data.ifsc || "";
+
+                document.getElementById('inputMarks').value =
+                data.marks || "";
+
+                if(data.photo){
+
+                    document.getElementById('photo').src =
+                    data.photo;
+
+                    document.getElementById('photo').style.display =
+                    'block';
+
+                }
+
+                showPreview();
+
+                alert("PREVIOUS ELIGIBILITY IMPORTED");
+
+            }catch(err){
+
+                console.error(err);
+
+                alert("IMPORT FAILED");
+
+            }
+
+        };
+
+        reader.readAsArrayBuffer(file);
+
+    }catch(err){
+
+        console.error(err);
+
+        alert("FAILED TO READ PDF");
+
+    }
+
+});
+
+/* LIVE PREVIEW */
+
+document.querySelectorAll("input").forEach(input=>{
+
+    input.addEventListener("input",showPreview);
+
+    input.addEventListener("change",showPreview);
+
+});
+
+/* AUTO CAPITAL */
+
+document.querySelectorAll(
+"input[type='text']"
+).forEach(input=>{
+
+    input.addEventListener("input",function(){
+
+        this.value=this.value.toUpperCase();
+
+    });
+
+});
+
+/* AUTO FOCUS */
+
+const formInputs=document.querySelectorAll("input");
+
+formInputs.forEach((input,index)=>{
+
+    input.addEventListener("keydown",function(e){
+
+        if(e.key==="Enter"){
+
+            e.preventDefault();
+
+            const nextInput=formInputs[index+1];
+
+            if(nextInput){
+
+                nextInput.focus();
+
+            }
+
+        }
+
+    });
+
+});
+
+/* initial render so digit boxes show placeholders */
+showPreview();
+
+</script>
+
+</body>
+</html>
