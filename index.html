@@ -319,13 +319,25 @@ button:hover{
 .bonafide-footer{
     display:flex;
     justify-content:space-between;
+    align-items:flex-end;
     margin-top:120px;
     font-size:12pt;
     font-weight:bold;
 }
 
-.bonafide-footer .right{
+.bonafide-footer .sig-left{
+    text-align:left;
+    flex:1;
+}
+
+.bonafide-footer .sig-center{
+    text-align:center;
+    flex:1;
+}
+
+.bonafide-footer .sig-right{
     text-align:right;
+    flex:1;
 }
 
 </style>
@@ -545,11 +557,13 @@ button:hover{
     </div>
 
     <div class="bonafide-footer">
-        <div class="left">
-            Incharge Admission<br>
-            <span style="font-weight:normal;font-size:11pt;">PEL/PEM/PET/RK</span>
+        <div class="sig-left">
+            Incharge Admission
         </div>
-        <div class="right">
+        <div class="sig-center">
+            PEL/PEM/PET/RK
+        </div>
+        <div class="sig-right">
             Seal &amp; Signature of the<br>Head of the Institution
         </div>
     </div>
