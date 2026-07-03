@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -967,17 +969,34 @@ async function downloadPDF(){
         -1000
     );
 
-    eligibilityPdf.save(`${safeName}_eligibility.pdf`);
-
     /* ---- 2. BONAFIDE CERTIFICATE (only if checkbox is checked) ---- */
 
     const alsoDownload = document.getElementById('alsoDownloadBonafide').checked;
 
     if(alsoDownload){
 
-        const bonafidePdf = await generatePdfFromElement('LoadDetails2');
+        const bonafideEl = document.getElementById('LoadDetails2');
 
-        bonafidePdf.save(`${safeName}_bonafide_certificate.pdf`);
+        bonafideEl.classList.add('active');
+
+        const bonafideCanvas = await html2canvas(bonafideEl,{
+            scale:4,
+            useCORS:true
+        });
+
+        bonafideEl.classList.remove('active');
+
+        const bonafideImgData = bonafideCanvas.toDataURL('image/jpeg',1.0);
+
+        eligibilityPdf.addPage('a4','p');
+
+        eligibilityPdf.addImage(bonafideImgData,'JPEG',0,0,210,297);
+
+        eligibilityPdf.save(`${safeName}_certificate.pdf`);
+
+    } else {
+
+        eligibilityPdf.save(`${safeName}_eligibility.pdf`);
 
     }
 
